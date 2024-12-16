@@ -12,7 +12,7 @@ datasource db {
   provider = "postgresql"
   url = "postgresql://USERPASSWORD@localhost:5432/DATABASE_NAME"
 }
-
+ 
 
 model User {
 			id Int 
