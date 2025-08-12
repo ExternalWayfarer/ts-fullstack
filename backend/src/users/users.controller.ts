@@ -1,19 +1,19 @@
 import { Controller, Get, Post, Body  } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { UsersService } from './users.service';
 
 @Controller('users')
 export class UsersController{
-constructor(private readonly prisma: PrismaService) {}
+constructor(private readonly usersService: UsersService) {}
 
-@Get() // Получить всех пользователей
+@Get()
 async getAllUsers() {
-return this.prisma.user.findMany();
+return this.usersService.getAllUsers();
 }
 
 
-@Post() // Добавить нового пользователя
+@Post()
 async createUser(@Body() data: { name: string; email: string }) {
-  return await this.prisma.user.create({ data });
+  return await this.usersService.createUser(data);
 }
 
 }

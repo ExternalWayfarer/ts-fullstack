@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api'; // Импортируем API для запросов
+import api from '../services/api'; // Импортируем API для запросов
 
 function UsersPage() {
   const [users, setUsers] = useState<{ id: number; name: string; email: string }[]>([]);

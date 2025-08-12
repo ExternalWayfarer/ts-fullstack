@@ -1,11 +1,14 @@
 import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({ log: [{ level: 'error', emit: 'event' }] });
+prisma.$on('error', (e) => {
+  console.log(e);
+});
 
 async function main() {
   await prisma.user.createMany({
     data: [
-      { name: 'John Doe', email: 'john@example.com' },
-      { name: 'Jane Doe', email: 'jane@example.com' },
+      { name: 'John Doe', role: 'CLIENT', email: 'john@example.com' },
+      { name: 'Jane Doe', role: 'CLIENT', email: 'jane@example.com' },
     ],
   });
 }
