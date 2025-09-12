@@ -14,10 +14,7 @@ import RegisterPage from './pages/RegisterPage';
 
 //import './App.css'
 
-interface User {
-  id: number;
-  name: string;
-}
+
 
 function App() {
   return (

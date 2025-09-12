@@ -6,6 +6,8 @@ export class ProductsService {
   constructor(private prisma: PrismaService) {}
 
   async findAll() {
-    return this.prisma.product.findMany();
+    return this.prisma.product.findMany(
+
+    );
   }
 }

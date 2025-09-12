@@ -26,7 +26,7 @@ const SearchBar = () => {
   };
 
   const handleBlur = () => {
-    setTimeout(() => setShowDropdown(false), 200); // Чтобы дать время на клик
+    setTimeout(() => setShowDropdown(false), 200);
   };
 
   return (
@@ -38,11 +38,11 @@ const SearchBar = () => {
         onFocus={() => setShowDropdown(true)}
         onBlur={handleBlur}
         placeholder="Search..."
-        className="px-4 py-2 w-64 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+        className="px-4 py-2 w-64 border border-steam-oliveHover focus:outline-none focus:ring focus:accent-steam-oliveHover bg-steam-oliveDark"
       />
       {showDropdown && (
         <ul
-          className={`absolute left-0 w-full bg-white border rounded-md mt-2 overflow-hidden shadow-lg transition-all duration-300 ease-in-out transform ${
+          className={`absolute left-0 w-full bg-steam-oliveDark border border-steam-oliveHover mt-2 overflow-hidden shadow-lg transition-all duration-300 ease-in-out transform ${
             showDropdown ? "scale-100 opacity-100" : "scale-95 opacity-0"
           }`}
         >

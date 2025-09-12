@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+
+body {
+  @apply bg-steam-oliveDark;
+}
+
 .navbar {
   position: fixed;
   top: 0;

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import RetroButton from "./retrobutton.tsx";
 import { useAuth } from '../context/AuthContext';
 import LoginModal from './loginmodal';
 import { useNavigate } from 'react-router-dom';
@@ -9,14 +10,14 @@ import SearchBar from './searchbar';
 const Header = () => {
     //const [isSearchVisible, setSearchVisible] = useState(false);
     
-    const { isLoggedIn } = useAuth();
+    const { accessToken } = useAuth();
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const handleAccountClick = () => {
-    if (isLoggedIn) {
-        navigate('/profile'); // Перейти на страницу профиля, если залогинен
+    if (accessToken) {
+        navigate('/profile');
     } else {
-        setIsModalOpen(true); // Открыть модальное окно, если не залогинен
+        setIsModalOpen(true);
     }
   };
    
@@ -25,30 +26,27 @@ const Header = () => {
 
 
     return (
-        <header className="bg-gray-800 text-white fixed w-full top-0 left-0 shadow-md z-50">
+        <header className="bg-steam-oliveLight fixed w-full top-0 left-0 shadow-md z-50">
             <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-            {/* Логотип */}
                 <div className="flex items-center space-x-4">
-                    <a href="/" className="text-2xl font-bold hover:text-blue-300">
+                    <a href="/" className="text-steam-textLight hover:text-steam-textActive">
                         Home
                     </a>
      
 
-                    <SearchBar /> {/* Вставляем поиск в шапку */}
+                    <SearchBar />
 
                     </div>
-        {/* Навигация */}
+
           <nav  className="flex items-center space-x-5">
 
             <Dropdown />
             
+                <RetroButton onClick={handleAccountClick}> Account </RetroButton>
+
             
-              <button onClick={handleAccountClick} className="hover:text-blue-300">
-                Account
-              </button>
-            
-              <a href="/about" className="hover:text-blue-400">About</a>
-              <a href="/contacts" className="hover:text-blue-400">Contacts</a>
+              <a href="/about" className="text-steam-textLight hover:text-steam-textActive">TEST</a>
+              <a href="/contacts" className="text-steam-textLight hover:text-steam-textActive">Contacts</a>
             
           </nav>
         </div>
