@@ -49,8 +49,8 @@ export class AuthService {
 
     }
 
-    const accessPayload = { email: user.email, sub: user.id };
-    const refreshPayload = { email: user.email, sub: user.id };
+    const accessPayload = { email: user.email, sub: user.id, role: user.role };
+    const refreshPayload = { email: user.email, sub: user.id, role: user.role };
 
     const refreshToken = this.jwtService.sign(refreshPayload, {
       secret: 'SECRET2222',
@@ -91,7 +91,7 @@ export class AuthService {
         throw new UnauthorizedException('User not found');
       }
 
-      const accessPayload = { email: user.email, sub: user.id };
+      const accessPayload = { email: user.email, sub: user.id, role:user.role };
       return {
         accessToken: this.jwtService.sign(accessPayload, {
           secret: 'SECRET111',

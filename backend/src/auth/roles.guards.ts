@@ -1,9 +1,8 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import {SetMetadata} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Observable } from 'rxjs';
 
-enum Role {
+export enum Role {
   CLIENT = "CLIENT",
   REPRESENTATIVE = "REPRESENTATIVE",
   OWNER =  "OWNER",

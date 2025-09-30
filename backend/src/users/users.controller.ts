@@ -1,26 +1,40 @@
-import { Controller, Get, Post, Body, Req, UseGuards, UnauthorizedException, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  UnauthorizedException,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard, Roles } from '../auth/roles.guards';
+import { Role, Roles, RolesGuard } from '../auth/roles.guards';
 
 @Controller('users')
-
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles(Roles['ADMIN'])
+  @Roles(Role.ADMIN, Role.MODERATOR)
   async getAllUsers() {
     return this.usersService.getAllUsers();
   }
 
-
-  @Post()
-  async createUser(@Body() data: { name: string; email: string, password: string }) {
-    return await this.usersService.createUser(data);
+  @Get('test')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Role.ADMIN)
+  async iWantItAll(@Req() req) {
+    return req.user.role == Role.ADMIN;
   }
 
+  @Post()
+  async createUser(
+    @Body() data: { name: string; email: string; password: string },
+  ) {
+    return await this.usersService.createUser(data);
+  }
 
   @Get('me')
   @UseGuards(AuthGuard('jwt'))
@@ -30,17 +44,17 @@ export class UsersController {
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
-    if (user.company){
+    if (user.company) {
       return {
         id: user.id.toString(),
         name: user.name,
         email: user.email,
         role: user.role.toString(),
         company: {
-          id:user.company.id.toString(),
-          name:user.company.name,
-          website:user.company.website,
-          createdAt:user.company.createdAt.toString(),
+          id: user.company.id.toString(),
+          name: user.company.name,
+          website: user.company.website,
+          createdAt: user.company.createdAt.toString(),
         },
         createdAt: user.createdAt.toISOString(),
       };
@@ -53,7 +67,6 @@ export class UsersController {
         createdAt: user.createdAt.toISOString(),
       };
     }
-
   }
 
   /*
@@ -62,5 +75,4 @@ export class UsersController {
     return
   }
   */
-
 }
