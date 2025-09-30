@@ -1,15 +1,15 @@
-import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import api  from './services/api';
 import Layout from './components/layout';
-import UsersPage from './pages/UsersPage'; // Импортируем страницу пользователей
+import UserProfilePage from './pages/UserProfilePage.tsx'; // Импортируем страницу пользователей
 import HomePage from './pages/HomePage'; // Если есть главная страница
 import AboutPage from './pages/AboutPage';
 import ContactsPage from './pages/ContactsPage';
 import AccountPage from './pages/AccountPage';
 import SearchPage from './pages/SearchPage';
 import RegisterPage from './pages/RegisterPage';
-
+import CompanyPage from "./pages/CompanyPage.tsx";
+import UserProfileEditPage from "./pages/UserProfileEditPage.tsx";
+import AdminPage from "./pages/AdminPage.tsx";
 
 
 //import './App.css'
@@ -22,7 +22,10 @@ function App() {
       <Layout>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/users" element={<UsersPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/profile" element={<UserProfilePage />} />
+        <Route path="/profile/edit" element={<UserProfileEditPage />} />
+        <Route path="/company/:name" element={<CompanyPage />} />
         <Route path="/about" element={<AboutPage />} /> 
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/contacts" element={<ContactsPage />} /> 

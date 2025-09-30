@@ -1,26 +1,24 @@
-import api from './api'; // Импорт axios из api.ts
+import api from './api';
 
-// Функция для получения всех товаров
 export const fetchProducts = async (searchTerm?: string) => {
     try {
       const response = await api.get('/products', {
-        params: { search: searchTerm }, // Передаём параметр поиска
+        params: { search: searchTerm },
       });
       return response.data;
     } catch (error) {
-      console.error('Ошибка при получении товаров:', error);
+      console.error('error:', error);
       throw error;
     }
   };
   
 
-// Функция для добавления нового товара
 export const addProduct = async (newProduct: { name: string; price: number }) => {
   try {
-    const response = await api.post('/products', newProduct); // Запрос на добавление товара
-    return response.data; // Возвращаем добавленный товар
+    const response = await api.post('/products', newProduct);
+    return response.data;
   } catch (error) {
-    console.error('Ошибка при добавлении товара:', error);
+    console.error('erero:', error);
     throw error;
   }
 };

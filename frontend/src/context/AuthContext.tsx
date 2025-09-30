@@ -13,11 +13,21 @@ interface AuthTokens {
   refreshToken: string;
 }
 
+export interface Company {
+  id: number;
+  name: string;
+  website: string;
+  createdAt: string;
+}
+
+
 export interface User {
   id: string;
   name: string;
   email: string;
   role: string;
+  bio: string;
+  company?: Company;
   createdAt: string;
 }
 
@@ -35,15 +45,28 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-
+const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const fetchUserData = async () => {
+  const retries = 3;
+  const delay = 1000;
+for (let attempt: number =0;attempt<retries; attempt++) {
   try {
-    const response = await api.get<User>('/users/me')
+    const response = await api.get<User>('/users/me', {timeout: 1000});
     return response.data;
   } catch (error) {
+
     console.error('error in user fetch', error);
+    if (attempt < retries) {
+      console.log(`Error at ${attempt} attempt. Retrying in ${delay} ms`);
+      await sleep(delay);
+    } else {
+      throw new Error('Error while fetching user data. All attempts failed.');
+    }
+    //
   }
+
+}
 
 };
 
@@ -99,10 +122,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUser(userData);
         }
       }
-
-
-
-
       //
     } catch (error) {
       console.error("Failed to save tokens to localStorage", error);
@@ -135,7 +154,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     user,
     isLoading,
   };
-
 
   return (
     <AuthContext.Provider value={ contextValue }>

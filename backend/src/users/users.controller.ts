@@ -1,13 +1,16 @@
-import { Controller, Get, Post, Body, Req, UseGuards, UnauthorizedException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Req, UseGuards, UnauthorizedException, Param } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard, Roles } from '../auth/roles.guards';
 
 @Controller('users')
+
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {
-  }
+  constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles(Roles['ADMIN'])
   async getAllUsers() {
     return this.usersService.getAllUsers();
   }
@@ -27,12 +30,37 @@ export class UsersController {
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
-    return {
-      id: user.id.toString(),
-      name: user.name,
-      email: user.email,
-      role: user.role.toString(),
-      createdAt: user.createdAt.toISOString(),
-    };
+    if (user.company){
+      return {
+        id: user.id.toString(),
+        name: user.name,
+        email: user.email,
+        role: user.role.toString(),
+        company: {
+          id:user.company.id.toString(),
+          name:user.company.name,
+          website:user.company.website,
+          createdAt:user.company.createdAt.toString(),
+        },
+        createdAt: user.createdAt.toISOString(),
+      };
+    } else {
+      return {
+        id: user.id.toString(),
+        name: user.name,
+        email: user.email,
+        role: user.role.toString(),
+        createdAt: user.createdAt.toISOString(),
+      };
+    }
+
   }
+
+  /*
+  @Get(':id')
+  async getById(@Param('id') id: string) {
+    return
+  }
+  */
+
 }

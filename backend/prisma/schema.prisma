@@ -7,11 +7,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Company {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  website     String?  @unique
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  employees   User[]
+}
+
 model User {
   id            Int            @id @default(autoincrement())
   name          String         @unique
   email         String         @unique
   role          Role           @default(CLIENT)
+  bio           String?
+  companyId     Int?
+  company       Company?       @relation(fields: [companyId], references: [id])
   createdAt     DateTime       @default(now())
   password      String
   updatedAt     DateTime       @updatedAt
@@ -75,7 +88,9 @@ model OrderItem {
 
 enum Role {
   CLIENT
-  MERCHANT
+  REPRESENTATIVE
+  OWNER
+  MODERATOR
   ADMIN
 }
 

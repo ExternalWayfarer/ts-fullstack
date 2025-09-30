@@ -13,6 +13,7 @@ export class UsersService {
   async getAllUsers() {
     return this.prisma.user.findMany();
   }
+
   async createUser(data: { name: string; email: string, password: string }): Promise<User> {
     const {password, name, email} = data;
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -23,6 +24,7 @@ export class UsersService {
   async findByEmail(email: string) {
     return this.prisma.user.findUnique({
       where: { email },
+      include: { company: true }
     });
   }
 }
